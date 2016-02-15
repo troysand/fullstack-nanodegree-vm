@@ -5,14 +5,10 @@
 
 import psycopg2
 
-databaseName = "tournament"
-playersTable = "Players"
-matchesTable = "Matches"
-
 
 def connect():
     """Connect to the PostgreSQL database.  Returns a database connection."""
-    return psycopg2.connect("dbname="+databaseName)
+    return psycopg2.connect("dbname=tournament")
 	
 
 def deleteMatches():
@@ -55,7 +51,7 @@ def registerPlayer(name):
 	"""
 	db = connect()
 	c = db.cursor()
-	c.execute("INSERT INTO " + playersTable + " (name) VALUES (%s)", (name,))
+	c.execute("INSERT INTO Players (name) VALUES (%s)", (name,))
 	db.commit()
 	db.close()
 	
@@ -74,8 +70,7 @@ def playerStandings():
 	"""
 	db = connect()
 	c = db.cursor()
-	query = "SELECT player_id, name, wins, matches FROM " + playersTable + " ORDER BY wins"
-	c.execute(query)
+	c.execute("SELECT * FROM get_player_standings()")
 	standings = []
 	for row in c.fetchall():
 		standings.append(row)
