@@ -31,6 +31,12 @@ CREATE TABLE Matches (
 	loser_id	integer REFERENCES Players
 );
 
+-- Create the NumPlayers view, which will be used to get the number
+-- of players currently registered.
+CREATE VIEW NumPlayers AS
+	SELECT COUNT(*)
+	FROM Players;
+
 -- Create the report_match_result() function. This function adds the
 -- match to the Matches table.
 CREATE OR REPLACE FUNCTION report_match_result(winner integer, loser integer) 
