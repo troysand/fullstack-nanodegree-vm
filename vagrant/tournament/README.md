@@ -32,10 +32,11 @@ correctly.
 
 ### Python
 This program was written and tested using python version 2.7.6. Python can be 
-obtained by going to [Python.org][https://www.python.org/downloads] and 
+obtained by going to [Python.org](https://www.python.org/downloads) and 
 selecting the appropriate version for your operating system.
 
 ### PostgreSQL
 This program was written and tested using PostgreSQL version 9.3.11. PostgreSQL
-can be obtained by going to [postgresql.org][http://www.postresql.org/download]
+can be obtained by going to [postgresql.org](http://www.postresql.org/download)
 and selecting the appropriate version for your operating system.
+
