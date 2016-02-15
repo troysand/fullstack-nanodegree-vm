@@ -20,9 +20,7 @@ CREATE DATABASE tournament;
 -- about each player.
 CREATE TABLE Players (
 	player_id	serial PRIMARY KEY,
-	name		varchar(80),
-	wins		smallint DEFAULT 0,
-	matches		smallint DEFAULT 0
+	name		varchar(80)
 );
 
 -- Create the Matches table. This table stores information about
@@ -34,18 +32,12 @@ CREATE TABLE Matches (
 );
 
 -- Create the report_match_result() function. This function adds the
--- match to the Matches table and also updates the number of wins
--- and total matches for the winner and updates the total matches
--- for the loser.
+-- match to the Matches table.
 CREATE OR REPLACE FUNCTION report_match_result(winner integer, loser integer) 
 	RETURNS void AS $$
 BEGIN
 	INSERT INTO Matches (winner_id, loser_id) VALUES (winner, loser);
-	UPDATE Players SET wins = wins + 1, matches = matches + 1
-		WHERE player_id = winner;
-	UPDATE Players SET matches = matches + 1
-		WHERE player_id = loser;
-END
+END;
 $$ LANGUAGE plpgsql;
 
 -- Create the delete_all_players() function. This function deletes all 
@@ -54,17 +46,44 @@ CREATE OR REPLACE FUNCTION delete_all_players()
 	RETURNS void AS $$
 BEGIN
 	DELETE FROM Players;
-END
+END;
 $$ LANGUAGE plpgsql;
 
 -- Create the delete_all_matches() function. This function deletes all
--- matches from the Matches table. Additionally, it resets the wins and
--- total matches for each player back to zero.
+-- matches from the Matches table. 
 CREATE OR REPLACE FUNCTION delete_all_matches()
 	RETURNS void AS $$
 BEGIN
 	DELETE FROM Matches;
-	UPDATE Players SET wins = 0, matches = 0;
-END
+END;
 $$ LANGUAGE plpgsql;
 
+-- Create the get_player_standings() function. This function gets the 
+-- player standings returned in a table of the format:
+--     player_id integer - the player id
+--     name varchar(80)  - the player name
+--     wins integer      - the number of wins for the player
+--     matches integer   - the total number of matches for the player
+--
+-- The rows are sorted by wins from high to low.
+CREATE OR REPLACE FUNCTION get_player_standings()
+	RETURNS TABLE(player_id integer, name varchar(80), 
+                  wins bigint, matches bigint) AS $$
+BEGIN
+	-- This query gets the number of wins and matches for each player.
+	-- Wins are calculated by counting the number of wins in the Matches table
+	-- and total matches are calculated by getting the count of wins and losses
+	-- combined.
+	RETURN QUERY 
+	SELECT Players.player_id AS player_id, Players.name AS name, 
+		(SELECT COUNT(*) FROM Matches 
+			WHERE Players.player_id = Matches.winner_id )
+		AS wins,
+		(SELECT COUNT(*) FROM Matches 
+			WHERE Players.player_id = Matches.winner_id 
+			OR Players.player_id = Matches.loser_id)
+		AS matches
+	FROM Players
+	ORDER BY wins;
+END;
+$$ LANGUAGE plpgsql;
