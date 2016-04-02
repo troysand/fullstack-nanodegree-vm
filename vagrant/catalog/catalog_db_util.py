@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.exc import NoResultFound
-from catalog_db import Base, Category, Item
+from catalog_db_setup import Base, Category, Item
 
 # Create a new category in the database.
 def createCategory(name, description):
