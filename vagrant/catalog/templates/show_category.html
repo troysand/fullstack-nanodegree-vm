@@ -1,0 +1,31 @@
+<html>
+
+<head></head>
+
+<body>
+<div class = 'pane'>
+
+<h1>Category App</h1>
+
+<h2>{{category.name}}</h2>
+{{category.description}}
+
+<h2>Items</h2>
+
+<ul>
+
+{% for item in items %}
+
+<li><a href="{{url_for('showItem', item_id=item.id)}}">{{item.name}}</a></li>
+
+{% endfor %}
+
+</ul>
+
+<a href="{{url_for('newItem', category_id=category.id)}}" > <h3> Add a new item in: {{category.name}} </h3> </a>
+<a href="{{url_for('editCategory', category_id=category.id)}}" > <h3> Edit category: {{category.name}} </h3> </a>
+
+</div>
+</body>
+
+</html>

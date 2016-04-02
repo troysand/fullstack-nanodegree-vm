@@ -1,0 +1,27 @@
+<html>
+
+<head></head>
+
+<body>
+<div class = 'pane'>
+
+<h1>Category App</h1>
+
+<h2>Categories</h2>
+
+<ul>
+
+{% for category in categories %}
+
+<li><a href="{{url_for('showCategory', category_id=category.id)}}">{{category.name}}</a></li>
+
+{% endfor %}
+
+</ul>
+
+<a href="{{url_for('newCategory')}}" > <h3> Add a New Category </h3> </a>
+
+</div>
+</body>
+
+</html>
