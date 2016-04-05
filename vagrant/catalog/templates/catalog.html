@@ -1,27 +1,71 @@
-<html>
+{% extends "main.html" %}
+{% block content %}
 
-<head></head>
-
-<body>
-<div class = 'pane'>
-
-<h1>Category App</h1>
-
-<h2>Categories</h2>
-
-<ul>
-
-{% for category in categories %}
-
-<li><a href="{{url_for('showCategory', category_id=category.id)}}">{{category.name}}</a></li>
-
-{% endfor %}
-
-</ul>
-
-<a href="{{url_for('newCategory')}}" > <h3> Add a New Category </h3> </a>
-
+<div class="row top-menu ">
+  <div class="col-md-6 app-link">
+    <a href="{{url_for('showCategories')}}">
+      Catalog App
+	</a>
+  </div>
+  <div class="col-md-6 text-right">
+    <a href="{{url_for('disconnect')}}">
+      <button class="btn btn-default" id="logout">
+      Logout
+      </button>
+    </a>	
+  </div>
 </div>
-</body>
 
-</html>
+<div class = 'flash'>
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}  
+    <ul>
+      {% for message in messages %}
+        <li> <strong> {{ message }} </strong> </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+  {% endwith %}
+</div>
+
+
+<div class="col-md-5 text-left category-pane">
+
+  <h1>Categories</h1>
+
+  <a href="{{url_for('newCategory')}}">
+    <button class="btn btn-default" id="new-category">
+      Add Category
+    </button>
+  </a>
+
+
+  {% for category in categories %}
+    <a href = "{{url_for('showCategory', category_id = category.id)}}">
+    <div class="row">
+	  <div class="col-md-10 category-list">
+		<h3>{{category.name}}</h3>
+	  </div>
+    </div>
+    </a>
+  {% endfor %}
+
+
+  </div>
+
+<div class="col-md-5 latest-pane">
+ <h1>Latest Items</h1>
+ {% for item in latestItems %}
+    <a href = "{{url_for('showItem', item_id=item.id)}}">
+    <div class="row">
+	  <div class="col-md-10 category-list">
+		<h3>{{item.name}}</h3>
+	  </div>
+    </div>
+    </a>
+ 
+ {% endfor %}
+</div>
+
+{% endblock %}
+
