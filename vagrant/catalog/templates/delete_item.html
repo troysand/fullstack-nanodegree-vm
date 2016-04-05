@@ -1,15 +1,29 @@
-<html>
+{% extends "main.html" %}
+{% block content %}
 
-<head></head>
+<div class="row top-menu ">
+  <div class="col-md-6 app-link">
+    <a href="{{url_for('showCategories')}}">
+      Catalog App
+	</a>
+  </div>
+  <div class="col-md-6 text-right">
+    <a href="{{url_for('disconnect')}}">
+      <button class="btn btn-default" id="logout">
+      Logout
+      </button>
+    </a>	
+  </div>
+</div>
 
-<body>
-<h1>Catalog App</h1>
-<h2>Delete {{item.name}}</h2>
+<div class="col-md-8 text-left item-pane">
+  <h1>Delete Item</h1>
+  <p>Are you sure you want to delete 
+  <a href="{{url_for('showItem', item_id=item.id)}}">{{item.name}}</a>?</p>
+  <form action="#" method="POST">
+    <input type="submit" value="Confirm" /></input>
+  <a href = "{{url_for('showItem',item_id=item.id)}}"> Cancel </a>
+  </form>
+</div>
 
-<form action="#" method="POST">
-<input type="submit" value="Confirm" />
-</form>
-<a href = '{{url_for('showItem',item_id=item.id)}}'> Cancel </a>
-</body>
-
-</html>
+{% endblock %}

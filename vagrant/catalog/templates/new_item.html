@@ -1,18 +1,44 @@
-<h1>Catalog App</h1>
+{% extends "main.html" %}
+{% block content %}
 
-<h2>Add Item to {{category.name}}</h2>
+<div class="row top-menu ">
+  <div class="col-md-6 app-link">
+    <a href="{{url_for('showCategories')}}">
+      Catalog App
+	</a>
+  </div>
+  <div class="col-md-6 text-right">
+    <a href="{{url_for('disconnect')}}">
+      <button class="btn btn-default" id="logout">
+      Logout
+      </button>
+    </a>	
+  </div>
+</div>
 
-<form action='#' method='post'>
+<div class="col-md-8 text-left item-pane">
 
-<p>Enter the name of the new item:</p>
-<input type='text' size='30' name='name'>
-<p>Add a description of the new item:</p>
-<textarea cols="50" rows="5" name="description">
-description...
-</textarea>
-<br/>
-<input type='submit' value='Save Item'>
+  <h1>Add Item to {{category.name}}</h1>
+  <p>
+  You can add an item to the catalog here. Type in a name and a description
+  for the item and click on 'Save Item'. Your item will be saved in the 
+  {{category.name}} category.
+  </p>
 
-<a href='#'>Cancel</a>
+  <form action='#' method='post'>
 
-</form>
+  <p>Name:</p>
+  <input type='text' size='30' name='name'></input>
+  <p>Description:</p>
+  <textarea cols="50" rows="5" name="description">
+  description...
+  </textarea>
+  <br/>
+  <input type='submit' value='Save Item'></input>
+
+  <a href="{{url_for('showCategory', category_id=category.id)}}">Cancel</a>
+
+  </form>
+</div>
+
+{% endblock %}

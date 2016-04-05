@@ -1,21 +1,31 @@
-<html>
+{% extends "main.html" %}
+{% block content %}
 
-<head></head>
+<div class="row top-menu ">
+  <div class="col-md-6 app-link">
+    <a href="{{url_for('showCategories')}}">
+      Catalog App
+	</a>
+  </div>
+  <div class="col-md-6 text-right">
+    <a href="{{url_for('disconnect')}}">
+      <button class="btn btn-default" id="logout">
+      Logout
+      </button>
+    </a>	
+  </div>
+</div>
 
-<body>
-<div class = 'pane'>
+<div class="col-md-8 text-left item-pane">
 
-<h1>Category App</h1>
-
-<h2>{{item.name}}</h2>
-<h3>Category: <a href="{{url_for('showCategory', category_id=category.id)}}">{{category.name}}</a></h3>
+<h1>{{item.name}}</h1>
+<h2>Category: <a href="{{url_for('showCategory', category_id=category.id)}}">{{category.name}}</a></h2>
 <p>
 {{item.description}}
 </p>
 <p>
 <a href="{{url_for('editItem',item_id=item.id)}}" >Edit</a> | <a href="{{url_for('removeItem',item_id=item.id)}}">Delete</a>
 </p>
-</div>
-</body>
 
-</html>
+</div>
+{% endblock %}
