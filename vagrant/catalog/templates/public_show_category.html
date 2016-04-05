@@ -1,0 +1,42 @@
+{% extends "main.html" %}
+{% block content %}
+
+<div class="row top-menu ">
+  <div class="col-md-6 app-link">
+    <a href="{{url_for('showCategories')}}">
+      Catalog App
+	</a>
+  </div>
+  <div class="col-md-6 text-right">
+    <a href="{{url_for('showLogin')}}">
+      <button class="btn btn-default" id="login">
+      Login
+      </button>
+    </a>	
+  </div>
+</div>
+
+<div class="col-md-8 text-left category-pane">
+<h2>Category: {{category.name}}</h2>
+{{category.description}}
+<h2>Items</h2>
+
+<ul>
+{% if items %}
+
+{% for item in items %}
+
+<li><a href="{{url_for('showItem', item_id=item.id)}}">{{item.name}}</a></li>
+
+{% endfor %}
+
+{% else %}
+<li>There are no items currently for this category.</li>
+{% endif %}
+
+</ul>
+
+
+</div>
+
+{% endblock %}
