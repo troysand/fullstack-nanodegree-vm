@@ -210,9 +210,11 @@ def showItem(item_id):
 	creator = readUserInfo(item.user_id)
 	category = readCategory(item.category_id)
 	if 'username' not in login_session or creator.id != login_session['user_id']:
-		return render_template('public_show_item.html', item=item, category=category)
+		return render_template('public_show_item.html', item=item, 
+			category=category, creator=creator)
 	else:
-		return render_template('show_item.html', item=item, category=category)
+		return render_template('show_item.html', item=item, category=category,
+			creator=creator)
 
 # Create a new item
 @app.route('/catalog/category/<int:category_id>/newitem/', 
