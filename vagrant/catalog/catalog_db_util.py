@@ -1,3 +1,8 @@
+#
+# This file implements the CRUD functions for the 
+# catalog app.
+#
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.exc import NoResultFound
@@ -22,6 +27,7 @@ def createItem(name, description, category_id, user_id):
 	session.add(newItem)
 	session.commit()
 
+# Create a new user in the database.
 def createUser(name, email, picture):
 	newUser = User(name=name, email=email, picture=picture)
 	session.add(newUser)
@@ -60,13 +66,16 @@ def readCategories():
 	categories = session.query(Category).all()
 	return categories
 
+# Get a list of the latest items added to the database. max is the maximum
+# num of items to return in the list. 
 def readLatestItems(max):
 	items = session.query(Item).all()
 	if len(items) > max:
-		return items[-1:-max]
+		return items[len(items)-1:len(items)-max-1:-1]
 	else:
-		return items
+		return items[::-1]
 
+# Read a user from the database.
 def readUserInfo(user_id):
 	try:
 		user = session.query(User).filter_by(id=user_id).one()
@@ -74,6 +83,7 @@ def readUserInfo(user_id):
 	except:
 		return None
 
+# Get the user id from the database given an email address.
 def readUserID(email):
 	try:
 		user = session.query(User).filter_by(email=email).one()
