@@ -43,8 +43,13 @@ execute the following commands on your command line:
 2. `python create_categories.py` **_optional_**
 
    This command will initialize the database with some categories.
+   
+3. Obtain client_secrets.json file. This file is obtained by registering
+the application at https://console.developers.google.com. The file will contains
+the client ID and the secret key. Replace the client ID in the login.html file
+with your client ID.
 
-3. `python catalog_app.py`
+4. `python catalog_app.py`
 
    This command will start the web application. The application will be running
 on the localhost at port 5000. To use the catalog app, go to the following 
@@ -58,4 +63,6 @@ obtained by going to [Python.org](https://www.python.org/downloads) and
 selecting the appropriate version for your operating system.
 ### Flask
 This web application uses the Flask framework version 0.9. 
+
+## Getting Started
 
