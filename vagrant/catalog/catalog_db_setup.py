@@ -1,3 +1,6 @@
+#
+#  Defines the database tables and the ORM for the catalog app.
+#
 import os
 import sys
 from sqlalchemy import Column, ForeignKey, Integer, String
@@ -8,6 +11,9 @@ from sqlalchemy.orm import sessionmaker
 
 Base = declarative_base()
 
+#
+# The User class represents a registered user of the catalog application.
+#
 class User(Base):
 	__tablename__ = 'user'
 	
@@ -16,6 +22,9 @@ class User(Base):
 	email = Column(String(250), unique=True)
 	picture = Column(String(250))
 
+#
+# The Category class represents a category in the catalog.
+#
 class Category(Base):
 	__tablename__ = 'category'
 	
@@ -35,6 +44,9 @@ class Category(Base):
 		}
 		
 
+# 
+# The Item class represents an item in the catalog.
+#
 class Item(Base):
 	__tablename__ = 'item'
 	
@@ -56,6 +68,7 @@ class Item(Base):
 			'category_id': self.category_id,
 		}
 
+# Create the database
 engine = create_engine('sqlite:///catalogitemswithusers.db')
 Base.metadata.create_all(engine)
 
