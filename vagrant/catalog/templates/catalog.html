@@ -1,7 +1,7 @@
 {% extends "main.html" %}
 {% block content %}
 
-<div class="row top-menu ">
+<div class="row top-menu">
   <div class="col-md-6 app-link">
     <a href="{{url_for('showCategories')}}">
       Catalog App
@@ -28,8 +28,8 @@
   {% endwith %}
 </div>
 
-
-<div class="col-md-5 text-left category-pane">
+<div class="col-md-6">
+<div class="category-pane">
 
   <h1>Categories</h1>
 
@@ -50,10 +50,11 @@
     </a>
   {% endfor %}
 
+</div>
+</div>
 
-  </div>
-
-<div class="col-md-5 latest-pane">
+<div class="col-md-6">
+<div class="latest-pane">
  <h1>Latest Items</h1>
  {% for item in latestItems %}
     <a href = "{{url_for('showItem', item_id=item.id)}}">
@@ -65,6 +66,7 @@
     </a>
  
  {% endfor %}
+</div>
 </div>
 
 {% endblock %}

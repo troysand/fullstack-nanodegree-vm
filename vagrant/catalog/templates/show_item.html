@@ -19,7 +19,9 @@
 <div class="col-md-8 text-left item-pane">
 
 <h1>{{item.name}}</h1>
-<h2>Category: <a href="{{url_for('showCategory', category_id=category.id)}}">{{category.name}}</a></h2>
+<h3>Category: <a href="{{url_for('showCategory', category_id=category.id)}}">{{category.name}}</a></h3>
+<h3>Created By: {{creator.name}}</h3> 
+<h3>Description:</h3>
 <p>
 {{item.description}}
 </p>
