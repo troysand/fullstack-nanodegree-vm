@@ -35,11 +35,11 @@ directory. The .css files are located in the static directory.
 
 To install the catalog app, download all of the files in the project. Then 
 execute the following commands on your command line:
-1. `python catalog_db_setup.py`
+1 `python catalog_db_setup.py`
    This command will create the database file called catalogitemswithusers.db.
-2. `python create_categories.py` **_optional_**
+2 `python create_categories.py` **_optional_**
    This command will initialize the database with some categories.
-3. `python catalog_app.py`
+3 `python catalog_app.py`
    This command will start the web application. The application will be running
 on the localhost at port 5000. To use the catalog app, go to the following 
 URL: http://localhost:5000/catalog
