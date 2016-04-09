@@ -20,15 +20,16 @@ CLIENT_ID = json.loads(
 	open('client_secrets.json', 'r').read())['web']['client_id']
 APPLICATION_NAME = "Catalog App"
 
+# Display the login page.
 @app.route('/login')
 def showLogin():
 	# Set the session state id
 	state = ''.join(random.choice(string.ascii_uppercase + string.digits)
 		for x in xrange(32))
 	login_session['state'] = state
-	#return "The current session state is %s" % login_session['state']
 	return render_template('login.html', STATE=state)
 
+# Connect to Google to authenticate the user.
 @app.route('/gconnect', methods=['POST'])
 def gconnect():
 	if request.args.get('state') != login_session['state']:
@@ -114,7 +115,7 @@ def gconnect():
 	print "done!"
 	return output
 
-# DISCONNECT - Revoke a current user's token and reset their login_session
+# Disconnect from Google.
 @app.route('/gdisconnect')
 def gdisconnect():
 	access_token = login_session['access_token']
@@ -145,6 +146,7 @@ def gdisconnect():
 		response.headers['Content-Type'] = 'application/json'
 		return response
 
+# Disconnect from whichever provider is used for authentication.
 @app.route('/disconnect')
 def disconnect():
 	if login_session['provider'] == 'google':
@@ -274,17 +276,19 @@ def removeItem(item_id):
 	else:
 		return render_template('delete_item.html', item=item)
 
+# Get the categories in JSON format.
 @app.route('/catalog/category/JSON/')
 def showCategoriesJSON():
 	categories = readCategories()
 	return jsonify(categories=[c.serialize for c in categories])
 
+# Get all of the items in JSON format.
 @app.route('/catalog/item/all/JSON/')
 def showAllItemsJSON():
 	items = readAllItems()
 	return jsonify(items=[i.serialize for i in items])
 
-# 
+# Get a single category in JSON format.
 @app.route('/catalog/category/<int:category_id>/JSON/')
 def showCategoryJSON(category_id):
 	category = readCategory(category_id)
@@ -293,7 +297,7 @@ def showCategoryJSON(category_id):
 	items = readItems(category_id)
 	return jsonify(items=[i.serialize for i in items])
 
-# 
+# Get a single item in JSON format.
 @app.route('/catalog/item/<int:item_id>/JSON/')
 def showItemJSON(item_id):
 	item = readItem(item_id)
