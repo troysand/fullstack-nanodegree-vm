@@ -23,6 +23,16 @@ APPLICATION_NAME = "Catalog App"
 # Display the login page.
 @app.route('/login')
 def showLogin():
+	""" 
+	Display the login page. 
+	
+	URLs:
+		'/login'
+
+	Args:
+		None
+	"""
+
 	# Set the session state id
 	state = ''.join(random.choice(string.ascii_uppercase + string.digits)
 		for x in xrange(32))
@@ -32,6 +42,16 @@ def showLogin():
 # Connect to Google to authenticate the user.
 @app.route('/gconnect', methods=['POST'])
 def gconnect():
+	""" 
+	Connect to Google to authenticate the user.
+	
+	URLs:
+		'/gconnect'
+
+	Args:
+		None
+	"""
+	
 	if request.args.get('state') != login_session['state']:
 		response = make_response(json.dumps('Invalid state parameter'), 401)
 		response.headers['Content-Type'] = 'application/json'
@@ -118,6 +138,16 @@ def gconnect():
 # Disconnect from Google.
 @app.route('/gdisconnect')
 def gdisconnect():
+	"""
+	Disconnect from Google.
+	
+	URLs:
+		'/gdisconnect'
+
+	Args:
+		None
+	"""
+	
 	access_token = login_session['access_token']
 	print 'In gdisconnect access token is %s', access_token
 	print 'User name is: ' 
@@ -149,6 +179,16 @@ def gdisconnect():
 # Disconnect from whichever provider is used for authentication.
 @app.route('/disconnect')
 def disconnect():
+	"""
+	Disconnect from whichever provider is used for authentication.
+	
+	URLs:
+		'/disconnect'
+
+	Args:
+		None
+	"""
+	
 	if login_session['provider'] == 'google':
 		return gdisconnect()
 
@@ -156,6 +196,17 @@ def disconnect():
 @app.route('/')
 @app.route('/catalog/')
 def showCategories():
+	"""
+	Show all categories.
+	
+	URLs:
+		'/'
+		'/catalog/'
+
+	Args:
+		None
+	"""
+	
 	categories = readCategories()
 	latestItems = readLatestItems(10)
 	if 'username' not in login_session:
@@ -168,6 +219,16 @@ def showCategories():
 # Create a new category
 @app.route('/catalog/category/newcategory/', methods=['GET', 'POST'])
 def newCategory():
+	"""
+	Create a new category.
+	
+	URLs:
+		'/catalog/category/newcategory'
+
+	Args:
+		None
+	"""
+	
 	if 'username' not in login_session:
 		return redirect('/login')
 	if request.method == 'POST':
@@ -180,6 +241,16 @@ def newCategory():
 # Show all the items in a category, given a category id
 @app.route('/catalog/category/<int:category_id>/')
 def showCategory(category_id):
+	"""
+	Show all the items in a category, given a category id.
+	
+	URLs:
+		'/catalog/category/<int:category_id>/'
+	
+	Args:
+		category_id: The id of the category to show
+	"""
+
 	category = readCategory(category_id)
 	if category == None:
 		return showError("There is no category with id=%s" % category_id)
@@ -194,18 +265,48 @@ def showCategory(category_id):
 # Show all categories
 @app.route('/catalog/category/all/')
 def showAllCategories():
+	"""
+	Show all categories.
+	
+	URLs:
+		'/catalog/category/all/'
+	
+	Args:
+		None
+	"""
+
 	categories = readCategories()
 	return render_template('show_all_categories.html', categories=categories)
 
 # Show all items
 @app.route('/catalog/item/all/')
 def showAllItems():
+	"""
+	Show all of the items in the catalog.
+	
+	URLs:
+		'/catalog/items/all/'
+		
+	Args:
+		None
+	"""
+
 	items = readAllItems()
 	return render_template('show_all_items.html', items=items)
 
 # Show an item and its description
 @app.route('/catalog/item/<int:item_id>/')
 def showItem(item_id):
+	"""
+	Show an item and its description.
+	
+	URLs:
+		'/catalog/item/<int:item_id>/'
+	
+	Args:
+		item_id: The id of the item to show
+	"""
+
 	item = readItem(item_id)
 	if item == None:
 		return showError("There is no item with id=%s" % item_id)
@@ -222,6 +323,16 @@ def showItem(item_id):
 @app.route('/catalog/category/<int:category_id>/newitem/', 
            methods=['GET', 'POST'])
 def newItem(category_id):
+	"""
+	Create a new item in the catalog.
+	
+	URLs:
+		'/catalog/category/<int:category_id>/newitem/'
+	
+	Args:
+		category_id: The id of the category for the new item
+	"""
+
 	if 'username' not in login_session:
 		return redirect('/login')
 	user_id = login_session['user_id']
@@ -236,6 +347,16 @@ def newItem(category_id):
 # Edit an item
 @app.route('/catalog/item/<int:item_id>/edit/', methods=['GET', 'POST'])
 def editItem(item_id):
+	"""
+	Edit an item in the catalog.
+	
+	URLs:
+		'/catalog/item/<int:item_id>/edit/'
+	
+	Args:
+		item_id: The id of the item to edit
+	"""
+
 	if 'username' not in login_session:
 		return redirect('/login')
 	item = readItem(item_id)
@@ -251,6 +372,16 @@ def editItem(item_id):
 # Edit a category
 @app.route('/catalog/category/<int:category_id>/edit/', methods=['GET','POST'])
 def editCategory(category_id):
+	"""
+	Edit a category.
+	
+	URLs:
+		'/catalog/category/<int:category_id>/edit/'
+	
+	Args:
+		category_id: The id of the catgory to edit.
+	"""
+
 	if 'username' not in login_session:
 		return redirect('/login')
 	category = readCategory(category_id)
@@ -265,6 +396,16 @@ def editCategory(category_id):
 # Delete an item
 @app.route('/catalog/item/<int:item_id>/delete/', methods=['GET', 'POST'])
 def removeItem(item_id):
+	"""
+	Delete an item from the catalog.
+	
+	URLs:
+		'/catalog/item/<int:item_id>/delete/'
+	
+	Args:
+		item_id: The id of the item to delete
+	"""
+
 	if 'username' not in login_session:
 		return redirect('/login')
 	item = readItem(item_id)
@@ -279,18 +420,48 @@ def removeItem(item_id):
 # Get the categories in JSON format.
 @app.route('/catalog/category/JSON/')
 def showCategoriesJSON():
+	"""
+	Get the categories in JSON format.
+	
+	URLs:
+		'/catalog/category/JSON/'
+	
+	Args:
+		None
+	"""
+
 	categories = readCategories()
 	return jsonify(categories=[c.serialize for c in categories])
 
 # Get all of the items in JSON format.
 @app.route('/catalog/item/all/JSON/')
 def showAllItemsJSON():
+	"""
+	Get a lsit of all of the items in JSON format.
+	
+	URLs:
+		'/catalog/item/all/JSON/'
+	
+	Args:
+		None
+	"""
+
 	items = readAllItems()
 	return jsonify(items=[i.serialize for i in items])
 
 # Get a single category in JSON format.
 @app.route('/catalog/category/<int:category_id>/JSON/')
 def showCategoryJSON(category_id):
+	"""
+	Get a single category in JSON format.
+	
+	URLs:
+		'/catalog/category/<int:category_id>/JSON/'
+	
+	Args:
+		category_id: The id of the catagory to get
+	"""
+
 	category = readCategory(category_id)
 	if category == None:
 		return showError("There is no category with id=%s" % category_id)
@@ -300,12 +471,29 @@ def showCategoryJSON(category_id):
 # Get a single item in JSON format.
 @app.route('/catalog/item/<int:item_id>/JSON/')
 def showItemJSON(item_id):
+	"""
+	Get a single item in JSON format.
+	
+	URLs:
+		'/catalog/item/<int:item_id>/JSON/'
+	
+	Args:
+		item_id: The id of the item to get
+	"""
+
 	item = readItem(item_id)
 	if item == None:
 		return showError("There is no item with id=%s" % item_id)
 	return jsonify(item=item.serialize)
 
 def showError(message):
+	"""
+	Show an error page for an unexpected error.
+	
+	Args:
+		message: A message to display on the error page.
+	"""
+
 	return render_template('show_error.html', message=message)
 
 if __name__ == '__main__':
